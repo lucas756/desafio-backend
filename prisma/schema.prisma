@@ -1,0 +1,47 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Survey {
+  id             Int        @id @default(autoincrement())
+  title          String
+  targetAudience String
+  email          String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  questions      Question[]
+  responses      Response[]
+}
+
+model Question {
+  id           Int      @id @default(autoincrement())
+  surveyId     Int
+  survey       Survey   @relation(fields: [surveyId], references: [id])
+  questionText String
+  answers      Answer[] // Adicione esta linha para a relação inversa
+}
+
+model Response {
+  id             Int      @id @default(autoincrement())
+  surveyId       Int
+  survey         Survey   @relation(fields: [surveyId], references: [id])
+  targetAudience String
+  stars          Int
+  email          String
+  createdAt      DateTime @default(now())
+  answers        Answer[]
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  responseId Int
+  response   Response @relation(fields: [responseId], references: [id])
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id])
+  answerText String
+}

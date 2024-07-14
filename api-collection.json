@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "API de Pesquisas",
+    "description": "Coleção de endpoints para gerenciamento de pesquisas de satisfação.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Criar Pesquisa",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\":\"Pesquisa de Satisfação\",\"target_audience\":\"Clientes\",\"email\":\"contato@example.com\",\"questions\":[\"Pergunta 1\",\"Pergunta 2\"]}"
+        },
+        "url": {
+          "raw": "http://localhost:5050/survey",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5050",
+          "path": [
+            "survey"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Atualizar Pesquisa",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\":\"Pesquisa de Satisfação Atualizada\",\"target_audience\":\"Clientes Atualizados\",\"email\":\"novo_contato@example.com\",\"questions\":[{\"id\":1,\"question_text\":\"Nova Pergunta 1\"},{\"id\":2,\"question_text\":\"Nova Pergunta 2\"}]}"
+        },
+        "url": {
+          "raw": "http://localhost:5050/survey/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5050",
+          "path": [
+            "survey",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Preencher Pesquisa",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"target_audience\":\"Clientes\",\"stars\":4,\"email\":\"cliente@example.com\",\"answers\":[{\"question_id\":1,\"answer_text\":\"Ótima experiência!\"},{\"question_id\":2,\"answer_text\":\"Muito satisfeito!\"}]}"
+        },
+        "url": {
+          "raw": "http://localhost:5050/survey/1/responses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5050",
+          "path": [
+            "survey",
+            "1",
+            "responses"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Listar Respostas",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5050/survey/responses?target_audience=Clientes&sort_by_stars=asc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5050",
+          "path": [
+            "survey",
+            "responses"
+          ],
+          "query": [
+            {
+              "key": "target_audience",
+              "value": "Clientes"
+            },
+            {
+              "key": "sort_by_stars",
+              "value": "asc"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
