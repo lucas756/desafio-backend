@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import * as Yup from 'yup';
 import { PrismaClient } from '@prisma/client'
+import fs from 'fs'
+import path from 'path'
+import { write } from 'fast-csv';
 const prisma = new PrismaClient();
 
 interface createBodyResponse {
@@ -23,7 +26,12 @@ class ResponseController {
                 })
             ).required('Respostas são obrigatórias'),
         });
-        await responseSchema.validate(req.body);
+        try {
+            await responseSchema.validate(req.body);
+        } catch (err) {
+            res.status(400).json({});
+            return
+        }
 
         const { id } = req.params;
         const { target_audience, stars, email, answers }: createBodyResponse = req.body;
@@ -83,6 +91,35 @@ class ResponseController {
         } catch (error) {
             res.status(500).json({ error: 'Erro ao buscar as respostas.' });
         }
+    }
+
+    async dowloadCsv(req: Request, res: Response): Promise<void> {
+        const data = await prisma.response.findMany({});
+
+        const csvFilePath = path.join(__dirname, 'data.csv');
+        const ws = fs.createWriteStream(csvFilePath);
+
+        write(data, { headers: true })
+            .pipe(ws)
+            .on('finish', () => {
+                res.setHeader('Content-Disposition', 'attachment; filename=data.csv');
+                res.setHeader('Content-Type', 'text/csv');
+
+                res.sendFile(csvFilePath, (err) => {
+                    if (err) {
+                        return res.status(500).send('Erro ao gerar o arquivo');
+                    }
+
+                    fs.unlink(csvFilePath, (err) => {
+                        if (err) {
+                            console.error('Erro ao deletar o arquivo temporário:', err);
+                        }
+                    });
+                });
+            })
+            .on('error', (err) => {
+                res.status(500).send('Erro ao gerar o arquivo');
+            });
     }
 }
 

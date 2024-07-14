@@ -126,6 +126,31 @@
           ]
         }
       }
+    },
+    {
+      "name": "Baixar csv",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5050/survey/download-csv",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5050",
+          "path": [
+            "survey",
+            "download-csv"
+          ]
+        }
+      }
     }
   ]
 }
