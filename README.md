@@ -1,5 +1,5 @@
 # Projeto de pesquisa - Desafio back-end
-Este projeto é uma aplicação para gerenciar pesquisas, incluindo a criação de pesquisas, perguntas e respostas, utilizando Node.js, Express e Prisma.
+Este projeto é uma aplicação para gerenciar pesquisas, permitindo a criação de pesquisas, perguntas e respostas, utilizando Node.js, Express e Prisma. Você pode encontrar as requisições do Postman no arquivo **api-collection.json**.
 
 ## Pré-requisitos
 
